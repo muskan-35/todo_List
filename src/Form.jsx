@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import SearchIcon from '@mui/icons-material/Search';
-import DeleteIcon from '@mui/icons-material/Delete';
-import DescriptionIcon from '@mui/icons-material/Description';
-import TitleIcon from '@mui/icons-material/Title';
+import NoteAdd from '@mui/icons-material/NoteAdd';
+import Search from '@mui/icons-material/Search';
+import Delete from '@mui/icons-material/Delete';
+import Description from '@mui/icons-material/Description';
+import Title from '@mui/icons-material/Title';
 
 function Form(){
     const[title, setTitle] = useState("")
@@ -11,7 +11,7 @@ function Form(){
     const [search, setSearch] = useState("");
     const [notes, setNotes] = useState([]);
 
-    // load notes from localStorage
+    // Load notes from localStorage
     useEffect(()=>{
         const saveNotes = JSON.parse(localStorage.getItem("notes"))
         if(saveNotes){
@@ -19,7 +19,7 @@ function Form(){
         }
     },[])
 
-    // save notes from localStorage
+    // Save notes to localStorage
     useEffect(()=>{
         localStorage.setItem("notes", JSON.stringify(notes))
     },[notes])
@@ -27,7 +27,7 @@ function Form(){
     // Add notes
     const addvalue = () => {
         if(!title ||!des){
-            alert("Please required title and description")
+            alert("Please enter title and description")
             return
         }
         const newValue ={
@@ -35,19 +35,18 @@ function Form(){
             title,
             des,
         }
-
         setNotes([...notes, newValue])
         setTitle("")
         setDes("")
     }
 
-    // search notes
+    // Search notes
     const filternotes = notes.filter((note)=>
         note.title.toLowerCase().includes(search.toLowerCase()) ||
         note.des.toLowerCase().includes(search.toLowerCase()),
     )
 
-    // delete notes
+    // Delete notes
     const deleteNote = (id) => {
         const updateNotes = notes.filter((note) => note.id!== id);
         setNotes(updateNotes);
@@ -62,7 +61,7 @@ function Form(){
                 </h1>
 
                 <div className="relative mb-5">
-                    <TitleIcon className="absolute left-3 top-4 text-gray-400" />
+                    <Title className="absolute left-3 top-4 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Enter Title"
@@ -73,13 +72,13 @@ function Form(){
                 </div>
 
                 <div className="relative mb-5">
-                    <DescriptionIcon className="absolute left-3 top-4 text-gray-400" />
+                    <Description className="absolute left-3 top-4 text-gray-400" />
                     <textarea
                         placeholder="Enter Description"
                         value={des}
                         onChange={(e) => setDes(e.target.value)}
                         rows="5"
-                        className="w-full p-4 pl-12 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                        className="w-full p-4 pl-12 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none"
                     />
                 </div>
 
@@ -87,13 +86,13 @@ function Form(){
                     onClick={addvalue}
                     className="w-full bg-indigo-600 text-white py-4 rounded-xl font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2"
                 >
-                    <NoteAddIcon />
+                    <NoteAdd />
                     Add Note
                 </button>
 
                 {/* Search */}
                 <div className="mt-8 relative">
-                    <SearchIcon className="absolute left-3 top-4 text-gray-400" />
+                    <Search className="absolute left-3 top-4 text-gray-400" />
                     <input
                         type="text"
                         placeholder="Search Notes..."
@@ -115,21 +114,21 @@ function Form(){
                         {filternotes.map((note) => (
                             <div
                                 key={note.id}
-                                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-300 border border-gray-100"
+                                className="bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition duration-300 border border-gray-100 flex flex-col"
                             >
-                                <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                                <h3 className="text-xl font-semibold text-gray-800 mb-3 flex items-start gap-2 break-words">
                                     {note.title}
                                 </h3>
 
-                               <p className="text-gray-600 mb-5 leading-relaxed break-words whitespace-pre-wrap">
+                                <p className="text-gray-600 mb-5 leading-relaxed break-words whitespace-pre-wrap flex-grow">
                                     {note.des}
                                 </p>
 
                                 <button
                                     onClick={() => deleteNote(note.id)}
-                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center gap-2"
+                                    className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition flex items-center gap-2 mt-auto w-fit"
                                 >
-                                    <DeleteIcon className="text-lg" />
+                                    <Delete className="text-lg" />
                                     Delete
                                 </button>
                             </div>
